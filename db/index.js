@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const { UUID, UUIDV4, STRING, BOOLEAN } = Sequelize;
+const { UUID, UUIDV4, STRING, BOOLEAN, ENUM } = Sequelize;
 const conn = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/acme_db');
 
 const Task = conn.define('task', {
@@ -11,6 +11,21 @@ const Task = conn.define('task', {
   },
   name: {
     type: STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  description: {
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  difficulty: {
+    type: ENUM('easy', 'medium', 'difficult'),
+    defaultValue: 'medium',
     allowNull: false,
     validate: {
       notEmpty: true
